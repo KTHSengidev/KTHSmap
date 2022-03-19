@@ -64,7 +64,7 @@ a:hover{
 .sroom{
   text-align: center;
   border-radius: 0 5px 5px 5px;
-  padding: 12px;
+  padding-top: 10px;
   margin: 0 5px 4px 5px;
   background-color: lightgreen;
   font-size: 16px;
@@ -102,10 +102,11 @@ ul{
 }
 main p{
   text-align: center;
-  margin: 5px auto 25px;
+  margin: 3px auto;
   color: #646464;
 }
 footer{
+  margin-top: 20px;
   border-top: 2.4px solid #014496;
   padding: 16px;
 }
