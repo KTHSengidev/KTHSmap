@@ -88,6 +88,9 @@ input{
   min-width: 26.7%;
   color: rgb(84, 85, 85);
 }
+input[type="reset"]{
+  margin-left: 5px;
+}
 ul li{
   margin: 0px 10px;
 }
