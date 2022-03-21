@@ -31,7 +31,7 @@ header h2 {
   background-color: lightblue;
   padding: 5px;
   margin: 5px 6px 1px 3px;
-  border-radius: 5px 5px 0px 0px;
+  border-radius: 5px 5px 0 0px;
 }
 .rn #floor a{
   text-decoration: none;
@@ -42,7 +42,7 @@ header h2 {
   background-color: lightgreen;
   padding: 5px;
   margin: 5px 3px 1px 6px;
-  border-radius: 5px 5px 0px 0px;
+  border-radius: 5px 5px 0 0px;
 }
 .fl #floor {
   flex-grow: 1;
@@ -92,7 +92,7 @@ input[type="reset"]{
   margin-left: 5px;
 }
 ul li{
-  margin: 0px 10px;
+  margin: 0 10px;
 }
 ul li:nth-of-type(n+2){
   display: none; 
@@ -101,7 +101,7 @@ ul{
   list-style-type: none;
   width: 100%;
   padding: 0;
-  margin: 13px auto 0px;
+  margin: 13px auto 0;
 }
 main p{
   text-align: center;
