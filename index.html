@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>神奈工 校内マップ</title>
+    <title>神工 校内マップ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
@@ -14,24 +13,27 @@
     <script type="text/javascript" src="js/imgViewer2.js"></script>
     <script>
         $(function(){
-            $('#selectFloor').change(function(){
+            $('input').change(function(){
                 var val = $(this).val();
-                var selectFloorId = '#' + val;
-                $('ul li').hide();
-                $(selectFloorId).show();
-                var $img = $(selectFloorId+"_img").imgViewer2(
-                    {
-                        onReady: function(){
-                            this.setZoom(2);
-                            this.setZoom(1);
+                if (val){
+                    var val = val.substr(0, 2);
+                    var selectFloorId = '#' + val;
+                    $('ul li').hide();
+                    $(selectFloorId).show();
+                    var $img = $(selectFloorId+"_img").imgViewer2(
+                        {
+                            onReady: function(){
+                                this.setZoom(2);
+                                this.setZoom(1);
+                            }
                         }
-                    }
-                );
+                    );
+                }
             });
         });
         ;(function($){
             $(window).on("load", function(){
-                var $img = $("#1f_img").imgViewer2(
+                var $img = $("#1F_img").imgViewer2(
                     {
                         onReady: function(){
                             this.setZoom(2);
@@ -41,54 +43,77 @@
                 );
             });
         })(jQuery);
+        function clearText() {
+            var textForm = document.getElementById("rnform");
+            textForm.value = '';
+        }
     </script>
 </head>
-<body class="fl">
+<body class="rn">
     <header>
-        <h2>神奈川工業高校 校内マップ</h2>
+        <h2>神奈川工業高校 2024 神工祭</h2>
     </header>
     <main>
         <div class="tablike">
-            <div id="room"><a href="roomname.html">教室名からさがす</a></div>
-            <div id="floor">階数からさがす</div>
+            <div id="room">フロアマップ</div>
+            <div id="floor"><a href="leaflet.html">リーフレット</a></div>
         </div>
-        <div class="sfloor">
-            <select id="selectFloor">
-                <option value="0f"hidden>階を選択</option>
-                <option value="st">外ステージ</option>
-                <option value="tai">体育館</option>
-                <option value="1f">1階</option>
-                <option value="2f">2階</option>
-                <option value="3f">3階</option>
-                <option value="4f">4階</option>
-                <option value="5f">5階</option>
-                <option value="6f">6階</option>
-                <option value="7f">7階</option>
-                <option value="8f">8階</option>
-                <option value="9f">9階</option>
-                <option value="10f">10階</option>
-            </select>
+        <div class="sroom"><p>右上のボタンで階数切り替え</p>
+            <div id="map" style="width: 100%;height: 480px;"></div>
+            <p>ピンチアウトで地図を拡大</p>
         </div>
-        <ul>
-            <li id="0f"><img src="maps/Leaflet4.svg" alt="階を選択" id="Leaflet_img"></li>
-            <li id="st"><img src="maps/st.svg" alt="外ステージ" id="st_img"></li>
-            <li id="tai"><img src="maps/tai.svg" alt="体育館" id="tai_img"></li>
-            <li id="1f"><img src="maps/1f2023.svg" alt="1階" id="1f2023_img"></li>
-            <li id="2f"><img src="maps/2f2023.svg" alt="2階" id="2f2023_img"></li>
-            <li id="3f"><img src="maps/3f2023.svg" alt="3階" id="3f2023_img"></li>
-            <li id="4f"><img src="maps/4f2023.svg" alt="4階" id="4f2023_img"></li>
-            <li id="5f"><img src="maps/5f2023.svg" alt="5階" id="5f2023_img"></li>
-            <li id="6f"><img src="maps/6f2023.svg" alt="6階" id="6f2023_img"></li>
-            <li id="7f"><img src="maps/7f2023.svg" alt="7階" id="7f2023_img"></li>
-            <li id="8f"><img src="maps/8f2023.svg" alt="8階" id="8f2023_img"></li>
-            <li id="9f"><img src="maps/9f2023.svg" alt="9階" id="9f2023_img"></li>
-            <li id="10f"><img src="maps/10f2023.svg" alt="10階" id="10f2023_img"></li>
-        </ul>
-        <p>ピンチアウトで地図を拡大</p>
     </main>
     <footer>
-        <p>情報は2023/10/21.22現在<br>学校関係者以外へのリンクシェア禁止<br>
-        <small>&copy; 2022 神奈工校内マップ 108期生製作 v1.3</small></p>
+        <p>学校関係者以外へのリンクシェア禁止<br>
+        <small>&copy; 2024 神工校内マップ 108期生製作 v2.0</small></p>
     </footer>
+    <script>
+        var map = L.map('map', {
+            crs: L.CRS.Simple,
+            maxZoom: 1,
+            minZoom: -2
+        });
+        var bounds = [[0,0], [2000,2000]];
+        map.fitBounds(bounds);
+
+        L.control.layers({
+            "1F": L.imageOverlay("svg/1F.svg", bounds, {
+                attribution: "&copy; 令和6年度 文化祭実行委員会<br><a href='https://www.pen-kanagawa.ed.jp/kanagawa-th/'>神奈川県立神奈川工業高等学校</a>"
+            }).addTo(map),
+            "2F": L.imageOverlay("svg/2F.svg", bounds, {
+                attribution: "&copy; 令和6年度 文化祭実行委員会<br><a href='https://www.pen-kanagawa.ed.jp/kanagawa-th/'>神奈川県立神奈川工業高等学校</a>"
+            }),
+            "3F": L.imageOverlay("svg/3F.svg", bounds, {
+                attribution: "&copy; 令和6年度 文化祭実行委員会<br><a href='https://www.pen-kanagawa.ed.jp/kanagawa-th/'>神奈川県立神奈川工業高等学校</a>"
+            }),
+            "4F": L.imageOverlay("svg/4F.svg", bounds, {
+                attribution: "&copy; 令和6年度 文化祭実行委員会<br><a href='https://www.pen-kanagawa.ed.jp/kanagawa-th/'>神奈川県立神奈川工業高等学校</a>"
+            }),
+            "5F": L.imageOverlay("svg/5F.svg", bounds, {
+                attribution: "&copy; 令和6年度 文化祭実行委員会<br><a href='https://www.pen-kanagawa.ed.jp/kanagawa-th/'>神奈川県立神奈川工業高等学校</a>"
+            }),
+            "6F": L.imageOverlay("svg/6F.svg", bounds, {
+                attribution: "&copy; 令和6年度 文化祭実行委員会<br><a href='https://www.pen-kanagawa.ed.jp/kanagawa-th/'>神奈川県立神奈川工業高等学校</a>"
+            }),
+            "7F": L.imageOverlay("svg/7F.svg", bounds, {
+                attribution: "&copy; 令和6年度 文化祭実行委員会<br><a href='https://www.pen-kanagawa.ed.jp/kanagawa-th/'>神奈川県立神奈川工業高等学校</a>"
+            }),
+            "8F": L.imageOverlay("svg/8F.svg", bounds, {
+                attribution: "&copy; 令和6年度 文化祭実行委員会<br><a href='https://www.pen-kanagawa.ed.jp/kanagawa-th/'>神奈川県立神奈川工業高等学校</a>"
+            }),
+            "9F": L.imageOverlay("svg/9F.svg", bounds, {
+                attribution: "&copy; 令和6年度 文化祭実行委員会<br><a href='https://www.pen-kanagawa.ed.jp/kanagawa-th/'>神奈川県立神奈川工業高等学校</a>"
+            }),
+            "10F": L.imageOverlay("svg/10F.svg", bounds, {
+                attribution: "&copy; 令和6年度 文化祭実行委員会<br><a href='https://www.pen-kanagawa.ed.jp/kanagawa-th/'>神奈川県立神奈川工業高等学校</a>"
+            })
+        }, null, {collapsed: false,}).addTo(map);
+
+        map.zoomControl.setPosition("bottomright");
+
+        L.control.layers(null, overlayLayerControls, {collapsed: false}).addTo(map);
+
+        L.imageOverlay(image.url, imageBounds).addTo(map);
+    </script>
 </body>
 </html>
